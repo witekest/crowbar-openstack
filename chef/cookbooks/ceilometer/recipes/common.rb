@@ -103,6 +103,14 @@ template node[:ceilometer][:config_file] do
     notifies :reload, resources(service: "apache2")
 end
 
+monasca_server = node_search_with_cache("roles:monasca-server").first
+if monasca_server.nil?
+  Chef::Log.warn("No monasca-server found. Skip Ceilometer setup.")
+  return
+end
+
+monasca_api_url = MonascaHelper.api_network_url(monasca_server)
+
 template "/etc/ceilometer/pipeline.yaml" do
   source "pipeline.yaml.erb"
   owner "root"
@@ -112,7 +120,8 @@ template "/etc/ceilometer/pipeline.yaml" do
       meters_interval: node[:ceilometer][:meters_interval],
       cpu_interval: node[:ceilometer][:cpu_interval],
       disk_interval: node[:ceilometer][:disk_interval],
-      network_interval: node[:ceilometer][:network_interval]
+      network_interval: node[:ceilometer][:network_interval],
+      monasca_api_url: monasca_api_url
   })
   if is_compute_agent
     notifies :restart, "service[nova-compute]"

@@ -79,6 +79,15 @@ directory "/var/cache/ceilometer" do
   action :create
 end unless node[:platform_family] == "suse"
 
+template node[:ceilometer][:monasca][:field_definitions] do
+    source "monasca-field-definitions.yaml.erb"
+    owner "root"
+    group node[:ceilometer][:group]
+    mode "0640"
+    notifies :reload, resources(service: "apache2")
+end
+
+
 keystone_settings = KeystoneHelper.keystone_settings(node, @cookbook_name)
 
 crowbar_pacemaker_sync_mark "wait-ceilometer_register" if ha_enabled

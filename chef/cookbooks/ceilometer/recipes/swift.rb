@@ -18,7 +18,7 @@ when "debian"
   package "ceilometer-common"
   package "swift-proxy"
 else
-  package "openstack-ceilometer"
+  package "openstack-monasca-ceilometer"
   package "openstack-swift-proxy" # we need it for swift user presence
 end
 

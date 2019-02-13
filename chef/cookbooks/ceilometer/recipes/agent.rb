@@ -15,7 +15,7 @@
 
 package "ceilometer-agent-compute" do
   if %w(suse).include?(node[:platform_family])
-    package_name "openstack-ceilometer-agent-compute"
+    package_name "openstack-monasca-ceilometer-agent-compute"
   elsif %w(rhel).include?(node[:platform_family])
     package_name "openstack-ceilometer-compute"
   end

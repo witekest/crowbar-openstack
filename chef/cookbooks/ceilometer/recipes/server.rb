@@ -59,7 +59,7 @@ crowbar_pacemaker_sync_mark "create-ceilometer_database" if ha_enabled
 
 case node[:platform_family]
 when "suse"
-  package "openstack-ceilometer-agent-notification"
+  package "openstack-monasca-ceilometer-agent-notification"
 when "rhel"
   package "openstack-ceilometer-common"
   package "openstack-ceilometer-agent-notification"

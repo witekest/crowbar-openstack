@@ -89,3 +89,24 @@ heartbeat_timeout_threshold = <%= @rabbit_settings[:heartbeat_timeout] %>
 [compute]
 instance_discovery_method = <%= @instance_discovery_method %>
 <% end -%>
+
+# [coordination]
+# backend_url={{ cm_agent_ha_backend }}
+# check_watchers=10.0
+# heartbeat=1.0
+
+[monasca]
+enable_api_pagination = True
+database_retry_interval = 5
+database_max_retries = 5
+service_interface = internalURL
+service_auth_type = password
+service_domain_name = Default
+service_auth_url = <%= @keystone_settings['internal_auth_url'] %>
+service_password = <%= @keystone_settings['service_password'] %>
+service_username = <%= @keystone_settings['service_user'] %>
+service_region_name= <%= @keystone_settings['endpoint_region'] %>
+service_verify= <%= @monasca_settings[:server_verify] %>
+
+[publisher_notifier]
+metering_topic=metering

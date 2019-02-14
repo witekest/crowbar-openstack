@@ -90,11 +90,6 @@ heartbeat_timeout_threshold = <%= @rabbit_settings[:heartbeat_timeout] %>
 instance_discovery_method = <%= @instance_discovery_method %>
 <% end -%>
 
-# [coordination]
-# backend_url={{ cm_agent_ha_backend }}
-# check_watchers=10.0
-# heartbeat=1.0
-
 [monasca]
 enable_api_pagination = True
 database_retry_interval = 5
@@ -106,9 +101,6 @@ service_auth_url = <%= @keystone_settings['internal_auth_url'] %>
 service_password = <%= @keystone_settings['service_password'] %>
 service_username = <%= @keystone_settings['service_user'] %>
 service_region_name= <%= @keystone_settings['endpoint_region'] %>
-# still doubtful about this one, this needs to point to system cert bundle
-# or ca file in case self signed cert, or custom CA cert
-service_verify = <%= @monasca_settings[:server_verify] %>
 
 [publisher_notifier]
 metering_topic=metering

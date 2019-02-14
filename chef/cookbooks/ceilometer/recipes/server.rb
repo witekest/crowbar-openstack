@@ -137,7 +137,7 @@ keystone_register "give ceilometer user access" do
   auth register_auth_hash
   user_name keystone_settings["service_user"]
   project_name keystone_settings["service_tenant"]
-  role_name "monasca_user"
+  role_name "monasca-user"
   action :add_access
 end
 

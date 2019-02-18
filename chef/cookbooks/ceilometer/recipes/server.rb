@@ -89,6 +89,7 @@ end
 
 
 keystone_settings = KeystoneHelper.keystone_settings(node, @cookbook_name)
+monasca_project = node[:monasca][:service_tenant]
 
 crowbar_pacemaker_sync_mark "wait-ceilometer_register" if ha_enabled
 
@@ -113,7 +114,7 @@ keystone_register "register ceilometer user" do
   auth register_auth_hash
   user_name keystone_settings["service_user"]
   user_password keystone_settings["service_password"]
-  project_name keystone_settings["service_tenant"]
+  project_name monasca_project
   action :add_user
 end
 
@@ -124,7 +125,7 @@ keystone_register "give ceilometer user access" do
   port keystone_settings["admin_port"]
   auth register_auth_hash
   user_name keystone_settings["service_user"]
-  project_name keystone_settings["service_tenant"]
+  project_name monasca_project
   role_name "admin"
   action :add_access
 end
@@ -136,7 +137,7 @@ keystone_register "give ceilometer user access" do
   port keystone_settings["admin_port"]
   auth register_auth_hash
   user_name keystone_settings["service_user"]
-  project_name keystone_settings["service_tenant"]
+  project_name monasca_project
   role_name "monasca-user"
   action :add_access
 end
@@ -150,7 +151,7 @@ unless swift_middlewares.empty?
     port keystone_settings["admin_port"]
     auth register_auth_hash
     user_name keystone_settings["service_user"]
-    project_name keystone_settings["service_tenant"]
+    project_name monasca_project
     role_name "ResellerAdmin"
     action :add_access
   end

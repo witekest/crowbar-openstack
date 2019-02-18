@@ -10,6 +10,7 @@ memcached_servers = MemcachedHelper.get_memcached_servers(
 memcached_instance("ceilometer-server") if is_controller
 
 keystone_settings = KeystoneHelper.keystone_settings(node, @cookbook_name)
+monasca_project = node[:monasca][:service_tenant]
 
 db_settings = fetch_database_settings
 
@@ -80,6 +81,7 @@ template node[:ceilometer][:config_file] do
       debug: node[:ceilometer][:debug],
       rabbit_settings: fetch_rabbitmq_settings,
       keystone_settings: keystone_settings,
+      monasca_project: monasca_project,
       memcached_servers: memcached_servers,
       bind_host: bind_host,
       bind_port: bind_port,
